@@ -1,6 +1,8 @@
 #include "Pieces.h"
 #include "King.h"
+// Constructor
 king::king(char color) : pieces(color) {}
+// Destructor
 king::~king() {}
 bool king::isValidMove(int startRow, int startCol, int endRow, int endCol)
 {

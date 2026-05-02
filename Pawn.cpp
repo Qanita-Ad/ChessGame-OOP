@@ -1,9 +1,11 @@
 #include "Pieces.h"
 #include "Pawn.h"
+// Constructor
 pawn::pawn(char color) : pieces(color)
 {
 	firstMove = true;
 }
+// Destructor
 pawn::~pawn() {}
 void pawn::setFirstMove(bool val)
 {

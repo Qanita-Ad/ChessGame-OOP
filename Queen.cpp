@@ -1,6 +1,8 @@
 #include "Pieces.h"
 #include "Queen.h"
+// Constructor
 queen::queen(char color) : pieces(color) {}
+// Destructor
 queen::~queen() {}
 bool queen::isValidMove(int startRow, int startCol, int endRow, int endCol)
 {

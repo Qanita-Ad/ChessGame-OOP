@@ -1,6 +1,8 @@
 #include "Pieces.h"
 #include "Bishop.h"
+// Constructor
 bishop::bishop(char color) : pieces(color) {}
+// Destructor
 bishop::~bishop() {}
 bool bishop::isValidMove(int startRow, int startCol, int endRow, int endCol)
 {

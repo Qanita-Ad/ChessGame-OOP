@@ -1,6 +1,8 @@
 #include "Pieces.h"
 #include "Knight.h"
+// Constructor	
 knight::knight(char color) : pieces(color) {}
+// Destructor	
 knight::~knight() {}
 bool knight::isValidMove(int startRow, int startCol, int endRow, int endCol)
 {

@@ -4,10 +4,10 @@ using namespace std;
 // Constructor
 Game::Game()
 {
-    currentTurn = 'W';  
+    currentTurn = 'W';
 }
 // Destructor
-Game::~Game(){}
+Game::~Game() {}
 void Game::displayBoard()
 {
     board.display();
@@ -23,29 +23,38 @@ void Game::switchTurn()
         currentTurn = 'W';
     }
 }
-void Game::playMove(int sr, int sc, int er, int ec)
+bool Game::playMove(int sr, int sc, int er, int ec)
 {
-    pieces* p = board.getPiece(sr,sc);
+    pieces* p = board.getPiece(sr, sc);
     if (p == NULL)
     {
-        cout << "No piece at selected position!"<<endl;
-        return;
+        cout << "No piece at selected position!" << endl;
+        return false;
     }
     if (p->getColor() != currentTurn)
     {
-        cout << "Not your turn!"<<endl;
-        return;
+        cout << "Not your turn!" << endl;
+        return false;
     }
     bool moved = board.movePiece(sr, sc, er, ec);
     if (moved)
     {
-        cout << "Move successful!"<<endl;
+        cout << "Move successful!" << endl;
         switchTurn();
     }
     else
     {
-        cout << "Invalid move!"<<endl;
+        cout << "Invalid move!" << endl;
     }
+    return moved;
+}
+char Game::getCurrentTurn() const
+{
+    return currentTurn;
+}
+pieces* Game::getPieceAt(int row, int col)
+{
+    return board.getPiece(row, col);
 }
 void Game::start()
 {
@@ -64,5 +73,26 @@ void Game::start()
 }
 bool Game::isGameOver()
 {
-    return false;
+    bool whiteKing = false, blackKing = false;
+    for (int r = 0; r < 8; r++)
+        for (int c = 0; c < 8; c++)
+        {
+            pieces* p = board.getPiece(r, c);
+            if (p)
+            {
+                char s = p->getSymbol();
+                if (s == 'K') whiteKing = true;
+                if (s == 'k') blackKing = true;
+            }
+        }
+    return !whiteKing || !blackKing;
+}
+int Game::getValidMoves(int row, int col, std::pair<int, int> out[64])
+{
+    int count = 0;
+    for (int r = 0; r < 8; r++)
+        for (int c = 0; c < 8; c++)
+            if (board.canMove(row, col, r, c))
+                out[count++] = std::make_pair(r, c);
+    return count;
 }

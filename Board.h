@@ -17,9 +17,10 @@ public:
     ~Board();
     pieces* getPiece(int row, int col);
     void initialize();
-    void display();                         
+    void display();
     bool movePiece(int startRow, int startCol, int endRow, int endCol);
-    bool isInsideBoard(int row, int col);   
+    bool canMove(int sr, int sc, int er, int ec);
+    bool isPathClear(int sr, int sc, int er, int ec) const;
+    bool isInsideBoard(int row, int col);
 };
 #endif
-

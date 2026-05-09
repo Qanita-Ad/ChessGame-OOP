@@ -1,5 +1,4 @@
-﻿#define _HAS_STD_BYTE 0
-#include "ChessUI.h"
+﻿#include "ChessUI.h"
 
 int main()
 {

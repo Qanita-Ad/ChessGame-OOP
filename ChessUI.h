@@ -1,34 +1,32 @@
 ﻿#ifndef CHESSUI_H
 #define CHESSUI_H
 
-#include <SFML/Graphics.hpp>
+#include "raylib.h"
 #include <string>
 #include <utility>
 #include "Game.h"
 
-// SFML Chess Frontend
-// Requires SFML 2.x linked to the project.
-// Chess unicode glyphs render best with a font that supports the chess block
-// (e.g. Segoe UI Symbol  –  C:/Windows/Fonts/seguisym.ttf).
-// Falls back to Arial / Calibri automatically.
+// Raylib Chess Frontend
+// Requires raylib linked to the project.
 
 class ChessUI
 {
 public:
     ChessUI();
+    ~ChessUI();
     void run();
 
 private:
     // ── Layout constants ──────────────────────────────────────────────────
-    static const int CELL_SIZE = 80;    // pixels per board square
-    static const int BOARD_X = 50;    // left edge of board (room for rank labels)
-    static const int BOARD_Y = 70;    // top  edge of board (room for title)
-    static const int WIN_W = 740;   // window width
-    static const int WIN_H = 820;   // window height
+    static const int CELL_SIZE = 60;    // pixels per board square
+    static const int WIN_W = 720;   // window width
+    static const int WIN_H = 700;   // window height (fits 768 display)
+    static const int BOARD_X = (WIN_W - CELL_SIZE * 8) / 2;;    // left edge of board (room for rank labels)
+    static const int BOARD_Y = (WIN_H - CELL_SIZE * 8) / 2;
 
-    // ── SFML / game objects ───────────────────────────────────────────────
-    sf::RenderWindow window;
-    sf::Font         font;
+    // ── Raylib / game objects ─────────────────────────────────────────────
+    Font             font;
+    bool             fontOwned;   // false when using GetFontDefault() — must NOT unload
     Game             game;
 
     // ── Selection & move-hint state ───────────────────────────────────────
@@ -60,7 +58,7 @@ private:
     bool                  onToggleButton(int px, int py) const;
     std::pair<int, int>    pixelToCell(int px, int py) const;
     void                  drawPieceShape(char symbol, float cx, float cy);
-    sf::Color             squareColor(int row, int col) const;
+    Color                 squareColor(int row, int col) const;
 };
 
 #endif // CHESSUI_H

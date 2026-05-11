@@ -82,24 +82,34 @@ bool Board::isInsideBoard(int row, int col)
 bool Board::movePiece(int startRow, int startCol, int endRow, int endCol)
 {
     if (!isInsideBoard(startRow, startCol) || !isInsideBoard(endRow, endCol))
+    {
         return false;
+    }
 
     pieces* p = grid[startRow][startCol];
     if (p == NULL)
+    {
         return false;
+    }
 
     if (!p->isValidMove(startRow, startCol, endRow, endCol))
+    {
         return false;
+    }
 
-    // Sliding pieces (R, B, Q) must have a clear path
     char sym = p->getSymbol();
     if (sym == 'R' || sym == 'r' || sym == 'B' || sym == 'b' || sym == 'Q' || sym == 'q')
+    {
         if (!isPathClear(startRow, startCol, endRow, endCol))
+        {
             return false;
-
+        }
+    }
     pieces* dest = grid[endRow][endCol];
     if (dest != NULL && dest->getColor() == p->getColor())
+    {
         return false;
+    }
 
     pawn* pPawn = dynamic_cast<pawn*>(p);
     if (pPawn != NULL)
@@ -107,8 +117,9 @@ bool Board::movePiece(int startRow, int startCol, int endRow, int endCol)
         if (startCol == endCol)
         {
             if (dest != NULL)
+            {
                 return false;
-            // 2-square advance: intermediate square must be empty
+            }
             int diff = endRow - startRow;
             if (diff == 2 || diff == -2)
             {
@@ -120,7 +131,9 @@ bool Board::movePiece(int startRow, int startCol, int endRow, int endCol)
         else
         {
             if (dest == NULL)
+            {
                 return false;
+            }
         }
     }
 
@@ -131,7 +144,6 @@ bool Board::movePiece(int startRow, int startCol, int endRow, int endCol)
     if (pPawn != NULL)
     {
         pPawn->setFirstMove(false);
-        // Pawn promotion: auto-promote to Queen
         if ((p->getColor() == 'W' && endRow == 0) ||
             (p->getColor() == 'B' && endRow == 7))
         {
@@ -145,28 +157,42 @@ bool Board::movePiece(int startRow, int startCol, int endRow, int endCol)
 bool Board::canMove(int sr, int sc, int er, int ec)
 {
     if (!isInsideBoard(sr, sc) || !isInsideBoard(er, ec))
+    {
         return false;
+    }
     pieces* p = grid[sr][sc];
     if (p == NULL)
+    {
         return false;
+    }
     if (!p->isValidMove(sr, sc, er, ec))
+    {
         return false;
+    }
 
-    // Sliding pieces must have a clear path
     char sym = p->getSymbol();
     if (sym == 'R' || sym == 'r' || sym == 'B' || sym == 'b' || sym == 'Q' || sym == 'q')
+    {
         if (!isPathClear(sr, sc, er, ec))
+        {
             return false;
+        }
+    }
 
     pieces* dest = grid[er][ec];
     if (dest != NULL && dest->getColor() == p->getColor())
+    {
         return false;
+    }
     pawn* pPawn = dynamic_cast<pawn*>(p);
     if (pPawn != NULL)
     {
         if (sc == ec)
         {
-            if (dest != NULL) return false;
+            if (dest != NULL)
+            {
+                return false;
+            }
             int diff = er - sr;
             if (diff == 2 || diff == -2)
             {
@@ -176,7 +202,10 @@ bool Board::canMove(int sr, int sc, int er, int ec)
         }
         else
         {
-            if (dest == NULL) return false;
+            if (dest == NULL)
+            {
+                return false;
+            }
         }
     }
     return true;
@@ -189,7 +218,10 @@ bool Board::isPathClear(int sr, int sc, int er, int ec) const
     int c = sc + dc;
     while (r != er || c != ec)
     {
-        if (grid[r][c] != NULL) return false;
+        if (grid[r][c] != NULL)
+        {
+            return false;
+        }
         r += dr;
         c += dc;
     }
